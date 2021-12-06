@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/hybtalented/rpi-tools/ros_study/catkin_ws/devel/setup.sh
