@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "ms-iot.vscode-ros",
+        "ms-vscode.cpptools",
+        "twxs.cmake",
+        "go2sh.cmake-integration-vscode",
+        "ms-vscode.cmake-tools",
+        "cheshirekow.cmake-format",
+        "ms-python.python",
+        "xaver.clang-format"
+    ]
+}
