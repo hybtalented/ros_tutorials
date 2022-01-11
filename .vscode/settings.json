@@ -4,5 +4,9 @@
         "/home/hybtalented/rpi-tools/ros_study/catkin_ws/devel/lib/python2.7/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
     ],
-    "ros.distro": "melodic"
+    "ros.distro": "melodic",
+    "python.analysis.extraPaths": [
+        "/home/hybtalented/rpi-tools/ros_study/catkin_ws/devel/lib/python2.7/dist-packages",
+        "/opt/ros/melodic/lib/python2.7/dist-packages"
+    ]
 }

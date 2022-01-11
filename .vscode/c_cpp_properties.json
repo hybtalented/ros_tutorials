@@ -1,21 +1,21 @@
 {
-    "configurations": [
-        {
-            "browse": {
-                "databaseFilename": "ros.db",
-                "limitSymbolsToIncludedHeaders": true
-            },
-            "intelliSenseMode": "gcc-x64",
-            "includePath": [
-                "/home/hybtalented/rpi-tools/ros_study/catkin_ws/devel/include/**",
-                "/opt/ros/melodic/include/**",
-                "/home/hybtalented/rpi-tools/ros_study/catkin_ws/src/beginner_tutorials/include/**",
-                "/usr/include/**"
-            ],
-            "name": "Linux"
-        }
-    ],
-    "enableConfigurationSquiggles": true,
-    "env": {},
-    "version": 4
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "ros.db",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "intelliSenseMode": "linux-gcc-x64",
+      "includePath": [
+        "/home/hybtalented/rpi-tools/ros_study/catkin_ws/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/hybtalented/rpi-tools/ros_study/catkin_ws/src/beginner_tutorials/include/**",
+        "/usr/include/**"
+      ],
+      "name": "Linux"
+    }
+  ],
+  "enableConfigurationSquiggles": true,
+  "env": {},
+  "version": 4
 }
