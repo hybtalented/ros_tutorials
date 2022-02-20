@@ -7,6 +7,7 @@
         "ms-vscode.cmake-tools",
         "cheshirekow.cmake-format",
         "ms-python.python",
-        "xaver.clang-format"
+        "xaver.clang-format",
+        "ms-vscode.cpptools-extension-pack"
     ]
 }
