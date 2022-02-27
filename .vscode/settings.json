@@ -8,5 +8,19 @@
     "python.analysis.extraPaths": [
         "/home/hybtalented/rpi-tools/ros_study/catkin_ws/devel/lib/python2.7/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
-    ]
+    ],
+    "files.associations": {
+        "*.template": "plaintext",
+        "*.json": "json",
+        "*.qs": "javascript",
+        "*.qdoc": "cpp",
+        "*.doc": "cpp",
+        "*.in": "plaintext",
+        "*.html": "html",
+        "*.vuehtml": "vue-html",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "vector": "cpp"
+    }
 }

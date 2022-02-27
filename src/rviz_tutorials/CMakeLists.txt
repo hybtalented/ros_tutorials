@@ -10,6 +10,7 @@ project(rviz_tutorials)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   visualization_msgs
+  interactive_markers
 )
 
 ## System dependencies are found with CMake's conventions
@@ -140,6 +141,11 @@ target_link_libraries(basic_shape_node
 
 add_executable(points_and_lines src/points_and_lines.cpp)
 target_link_libraries(points_and_lines
+  ${catkin_LIBRARIES}
+)
+
+add_executable(simple_interactive_marker src/simple_interactive_marker.cpp)
+target_link_libraries(simple_interactive_marker
   ${catkin_LIBRARIES}
 )
 
