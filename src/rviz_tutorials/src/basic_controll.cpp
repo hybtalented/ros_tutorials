@@ -303,7 +303,7 @@ void makeMenuMarker(interactive_markers::InteractiveMarkerServer &server,
   menu_handler.apply(server, int_marker.name);
 }
 /**
- * 创建一个按钮
+ * @brief 创建一个按钮
  */
 void makeButtonControl(interactive_markers::InteractiveMarkerServer &server,
                        const tf::Vector3 &position) {
@@ -326,11 +326,53 @@ void makeButtonControl(interactive_markers::InteractiveMarkerServer &server,
   server.insert(int_marker);
   server.setCallback(int_marker.name, &processCallback);
 }
+/**
+ * @brief 创建一个可以在移动框架中的盒子
+ */
+void makeMovingMarker(interactive_markers::InteractiveMarkerServer &server,
+                      const tf::Vector3 &position, bool isRotate = false) {
+  InteractiveMarker int_marker;
+
+  tf::pointTFToMsg(position, int_marker.pose.position);
+  int_marker.scale = 1.0;
+
+  if (isRotate) {
+    int_marker.header.frame_id = "rotating_frame";
+    int_marker.name = "rotating_marker";
+    int_marker.description = "Marker in Rotating frame";
+  } else {
+    int_marker.header.frame_id = "moving_frame";
+    int_marker.name = "moving_marker";
+    int_marker.description = "Marker in moving frame";
+  }
+
+  InteractiveMarkerControl control;
+
+  control.orientation.x = 1.0;
+  control.orientation.y = 0.0;
+  control.orientation.z = 0.0;
+  control.orientation.w = 1.0;
+  // 创建一个可以在 y-z 平面的旋转控制器
+  control.interaction_mode = InteractiveMarkerControl::ROTATE_AXIS;
+  int_marker.controls.push_back(control);
+
+  // 创建一个可以在 y-z 平面内平移的盒子
+  control.interaction_mode = InteractiveMarkerControl::MOVE_PLANE;
+  control.always_visible = true;
+  control.markers.push_back(makeBox(int_marker));
+  int_marker.controls.push_back(control);
+
+  server.insert(int_marker);
+  server.setCallback(int_marker.name, &processCallback);
+}
+void frameCallback(const ros::TimerEvent &event);
 int main(int argc, char *argv[]) {
   setlocale(LC_CTYPE, "zh_CN.utf-8");
   ros::init(argc, argv, "basic_controll");
   ros::NodeHandle handle;
 
+  ros::Timer frame_timer =
+      handle.createTimer(ros::Duration(0.01), &frameCallback);
   interactive_markers::InteractiveMarkerServer server("basic_controls", "",
                                                       false);
   tf::Vector3 position;
@@ -405,11 +447,36 @@ int main(int argc, char *argv[]) {
   position = tf::Vector3(0, -6, 0);
   // 创建一个可以点击的图形
   makeButtonControl(server, position);
+
+  position = tf::Vector3(-3, -9, 0);
+  // 在平移框架中创建一个图形
+  makeMovingMarker(server, position);
+
+  position = tf::Vector3(0, -9, 0);
+  // 在旋转框架中创建一个图形
+  makeMovingMarker(server, position, true);
+
   server.applyChanges();
   ros::spin();
   return 0;
 }
+void frameCallback(const ros::TimerEvent &event) {
+  static u_int32_t counter;
+  static tf::TransformBroadcaster br;
 
+  tf::Transform t;
+  ros::Time now = ros::Time::now();
+  // 设置平移框架的坐标转换
+  t.setOrigin(tf::Vector3(0.0, 0.0, 2.0 * sin(counter / 140.0)));
+  t.setRotation(tf::Quaternion(0.0, 0.0, 0.0, 1.0));
+  br.sendTransform(tf::StampedTransform(t, now, "base_link", "moving_frame"));
+  // 设置旋转的框架 rotating_frame 的相对与固定框架的坐标转换
+  t.setOrigin(tf::Vector3(0.0, 0.0, 0.0));
+  t.setRotation(tf::createQuaternionFromRPY(0.0, counter / 140.0, 0.0));
+  br.sendTransform(tf::StampedTransform(t, now, "base_link", "rotating_frame"));
+
+  ++counter;
+}
 void processCallback(InteractiveMarkerFeedbackConstPtr feedback) {
   std::string basic_info = "来自图形-" + feedback->marker_name + "/控制器-" +
                            feedback->control_name + "的反馈消息:";
