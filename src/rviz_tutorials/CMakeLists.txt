@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   visualization_msgs
   interactive_markers
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -146,6 +147,11 @@ target_link_libraries(points_and_lines
 
 add_executable(simple_interactive_marker src/simple_interactive_marker.cpp)
 target_link_libraries(simple_interactive_marker
+  ${catkin_LIBRARIES}
+)
+
+add_executable(basic_controll src/basic_controll.cpp)
+target_link_libraries(basic_controll
   ${catkin_LIBRARIES}
 )
 
