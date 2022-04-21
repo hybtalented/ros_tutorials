@@ -1,0 +1,16 @@
+<launch>
+    <!-- 创建 /turtle1 乌龟-->
+    <node pkg="turtlesim" type="turtlesim_node" name="sim" />
+    <!-- 控制turtle1 的运动 -->
+    <node pkg="turtlesim" type="turtle_teleop_key" name="teleop" />
+
+    <!-- Axes -->
+    <param name="scale_linear" value="2" type="double" />
+    <param name="scale_angular" value="2" type="double" />
+
+    <node pkg="tf_tutorials" type="turtle_tf_broadcast" args="/turtle1" name="turtle1_tf_broadcast" />
+    <node pkg="tf_tutorials" type="turtle_tf_broadcast" args="/turtle2" name="turtle2_tf_broadcast" />
+
+    <!-- turtle_tf_listener 节点将会创建 /turtle2 的乌龟 -->
+    <node pkg="tf_tutorials" type="turtle_tf_listener" name="turtle_tf_listener" />
+</launch>
