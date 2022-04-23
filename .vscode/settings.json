@@ -81,5 +81,14 @@
         "typeinfo": "cpp",
         "*.txx": "cpp",
         "queue": "cpp"
-    }
+    },
+    "terminal.integrated.profiles.linux": {
+        "ros": {
+            "id": "ros",
+            "title": "ros终端",
+            "path": "/bin/bash",
+            "args": ["--init-file", "${workspaceFolder}/setup.sh"]
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "ros"
 }
