@@ -1,21 +1,33 @@
 #include <ros/ros.h>
 // tf 包提供的一种简化坐标变换广播功能的类 TransformBroadcaster
-#include <tf/transform_broadcaster.h>
+#include <geometry_msgs/TransformStamped.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/transform_broadcaster.h>
 #include <turtlesim/Pose.h>
 /**
  * @brief 获得乌龟的位置后，将二维位置作为tf消息广播
  */
 void poseTransformCallback(std::string turtleName,
                            const turtlesim::PoseConstPtr pose) {
-  static tf::TransformBroadcaster br;
-  tf::Transform transform;
+  static tf2_ros::TransformBroadcaster br;
+  geometry_msgs::TransformStamped transformStampled;
+  // 设置坐标变换的基本内容
+  transformStampled.header.frame_id = "world";
+  transformStampled.header.stamp = ros::Time::now();
+  transformStampled.child_frame_id = turtleName;
   // 设置坐标的原点位置，因为是二维空间移动，将z坐标固定为常数
-  transform.setOrigin(tf::Vector3(pose->x, pose->y, 0));
+  transformStampled.transform.translation.x = pose->x;
+  transformStampled.transform.translation.y = pose->y;
+  transformStampled.transform.translation.z = 0;
   // 设置围绕z轴的旋转角度
-  transform.setRotation(tf::createQuaternionFromRPY(0, 0, pose->theta));
+  tf2::Quaternion rotation;
+  rotation.setRPY(0, 0, pose->theta);
+  transformStampled.transform.rotation.x = rotation.x();
+  transformStampled.transform.rotation.y = rotation.y();
+  transformStampled.transform.rotation.z = rotation.z();
+  transformStampled.transform.rotation.w = rotation.w();
   // 广播对应框架的坐标变换消息
-  br.sendTransform(
-      tf::StampedTransform(transform, ros::Time::now(), "world", turtleName));
+  br.sendTransform(transformStampled);
 };
 int main(int argc, char **argv) {
   ros::init(argc, argv, "turtle_broadcast");
