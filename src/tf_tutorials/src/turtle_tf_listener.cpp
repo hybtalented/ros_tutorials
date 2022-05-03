@@ -46,12 +46,12 @@ int main(int argc, char *args[]) {
     }
     geometry_msgs::Twist vel_msg;
 
-    // 设置 turtle2 的运动方向
     double x = transformStamped.transform.translation.x,
            y = transformStamped.transform.translation.y;
-
-    vel_msg.angular.z = 4.0 * atan(y / x);
-    // 设置运动的距离
+    // 设置 turtle2 朝向变化的角速度
+    vel_msg.angular.z = 4.0 * atan2(y, x);
+    // 设置运动的距离,
+    // x方向表示乌龟的前方，y方向表示乌龟的左侧，z方向表示乌龟的上方
     vel_msg.linear.x = 0.5 * sqrt(pow(y, 2) + pow(x, 2));
 
     turtle_vel.publish(vel_msg);
